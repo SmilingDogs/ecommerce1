@@ -17,14 +17,14 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentUser = action.payload; //todo action.payload === {...others, accessToken}
+      state.currentUser = action.payload; //todo payload === {...others, accessToken}
       state.error = false;
       state.errorResponse = "";
     },
     loginFailure: (state, action) => {
       state.isFetching = false;
       state.error = true;
-      state.errorResponse = action.payload; //todo action.payload === err.response.data
+      state.errorResponse = action.payload; //todo payload === err.response.data
     },
 
     registerStart: (state) => {
@@ -32,12 +32,12 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.isFetching = false;
-      state.registrationStatus = action.payload //todo action.payload === res.status == 201
+      state.registrationStatus = action.payload //todo payload === res.status == 201
     },
-    registerFailure: (state) => {
+    registerFailure: (state, action) => {
       state.isFetching = false;
       state.error = true;
-
+      state.errorResponse = action.payload;
     },
 
     logoutStart: (state) => {

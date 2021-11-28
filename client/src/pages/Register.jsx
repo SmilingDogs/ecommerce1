@@ -80,7 +80,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const {registrationStatus, error} = useSelector(userSelector)
+  const {registrationStatus, error, errorResponse, isFetching} = useSelector(userSelector)
 
   const onRegistration = (e) => {
     e.preventDefault()
@@ -102,11 +102,12 @@ const Register = () => {
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button type="submit">CREATE</Button>
+          <Button type="submit" disabled={isFetching}>CREATE</Button>
         </Form>
         {registrationStatus === 201 && <Success>New Account has been created!</Success>}
         {registrationStatus === 201 && <Link to="/"><Text>Homepage</Text></Link>}
         {error && <Error>Something went wrong...</Error>}
+        {errorResponse && <Error>{errorResponse}</Error>}
       </Wrapper>
     </Container>
   );

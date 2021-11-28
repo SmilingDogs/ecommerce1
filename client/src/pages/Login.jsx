@@ -79,11 +79,12 @@ const Login = () => {
     e.preventDefault();
     login(dispatch, { username, password });
   };
+  
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
-        <Form>
+        <Form onSubmit={onLogin}>
           <Input
             placeholder="username"
             type="text"
@@ -94,7 +95,7 @@ const Login = () => {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={onLogin} disabled={isFetching}>
+          <Button type="submit" disabled={isFetching}>
             LOGIN
           </Button>
           {error && <Error>Something went wrong...</Error>}
