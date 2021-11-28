@@ -4,6 +4,7 @@ import { mobile } from "../responsive";
 import { register } from "../redux/apiCalls";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { userSelector } from "../redux/selectors/userSelector";
 
 const Container = styled.div`
   width: 100vw;
@@ -79,7 +80,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const {registrationStatus, error} = useSelector(state => state.user)
+  const {registrationStatus, error} = useSelector(userSelector)
 
   const onRegistration = (e) => {
     e.preventDefault()

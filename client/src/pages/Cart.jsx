@@ -8,7 +8,7 @@ import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-import { deleteProduct } from "../redux/cartRedux";
+import { deleteProduct, addQty, removeQty } from "../redux/cartRedux";
 import { useHistory } from "react-router";
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -163,17 +163,12 @@ const Button = styled.button`
 `;
 
 const Delete = styled.button`
-  position: absolute;
-  top: 130px;
-  left: 70px;
-  font-size: 30px;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
+  margin-top: 20px;
   border: 1px solid #000;
   background-color: transparent;
   color: #000;
-  cursor: pointer
+  cursor: pointer;
+  display: block;
 
 `;
 
@@ -189,8 +184,15 @@ const Cart = () => {
 
   const goShopping = () => history.push("/")
 
-
   const deleteAction = id =>  dispatch(deleteProduct(id))
+
+  const addQtyAction = id => dispatch(addQty(id))
+
+  const removeQtyAction = (product, id) => {
+    if (product.quantity > 1) {
+      dispatch(removeQty(id))
+    }
+  }
 
 
   useEffect(() => {
@@ -207,7 +209,7 @@ const Cart = () => {
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart, history]);
-  
+
   return (
     <Container>
       <Navbar />
@@ -229,7 +231,6 @@ const Cart = () => {
               <Product key={product._id}>
                 <ProductDetail>
                   <Image src={product.img} />
-                  <Delete onClick={() => deleteAction(product._id)}>&times;</Delete>
                   <Details>
                     <ProductName>
                       <b>Product:</b> {product.title}
@@ -245,12 +246,13 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
+                    <Add onClick={() => addQtyAction(product._id)}/>
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <Remove onClick={() => removeQtyAction(product, product._id)} />
                   </ProductAmountContainer>
                   <ProductPrice>
                     $ {product.price * product.quantity}
+                    <Delete onClick={() => deleteAction(product._id)}>Delete Item</Delete>
                   </ProductPrice>
                 </PriceDetail>
               </Product>
@@ -276,7 +278,7 @@ const Cart = () => {
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="Lama Shop"
+              name="Smiling shop"
               image="https://avatars.githubusercontent.com/u/1486366?v=4"
               billingAddress
               shippingAddress

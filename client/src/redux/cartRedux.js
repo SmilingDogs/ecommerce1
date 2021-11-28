@@ -16,12 +16,25 @@ const cartSlice = createSlice({
 
     deleteProduct: (state, action) => {
       let indexDelete = state.products.findIndex(p => p._id === action.payload);
+      console.log(indexDelete);
       state.products.splice(indexDelete, 1);
       state.quantity -= 1;
       state.total = state.products.reduce((acc, item) => acc + item.price * item.quantity, 0)
     },
+
+    addQty: (state, action) => {
+      let index = state.products.findIndex(p => p._id === action.payload);
+      state.products[index].quantity +=1;
+      state.total = state.products.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    },
+
+    removeQty: (state, action) => {
+      let index = state.products.findIndex(p => p._id === action.payload);
+      state.products[index].quantity -=1;
+      state.total = state.products.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    }
   },
 });
 
-export const { addProduct, deleteProduct } = cartSlice.actions;
+export const { addProduct, deleteProduct, addQty, removeQty } = cartSlice.actions;
 export default cartSlice.reducer;

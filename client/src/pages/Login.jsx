@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "../redux/selectors/userSelector";
 
 const Container = styled.div`
   width: 100vw;
@@ -72,7 +73,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const { isFetching, error } = useSelector(userSelector);
 
   const onLogin = (e) => {
     e.preventDefault();
