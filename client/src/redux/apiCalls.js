@@ -15,7 +15,7 @@ export const register = async (dispatch, newUserData) => {
   dispatch(registerStart());
   try {
     const res = await publicRequest.post("/auth/register", newUserData);
-    console.log(res.status);
+
     dispatch(registerSuccess(res.status));
   } catch (err) {
     dispatch(registerFailure());
@@ -26,10 +26,11 @@ export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
     const res = await publicRequest.post("/auth/login", user);
-    console.log(res.data);
+
     dispatch(loginSuccess(res.data));
   } catch (err) {
-    dispatch(loginFailure());
+    console.log(err.response);
+    dispatch(loginFailure(err.response.data));
   }
 };
 

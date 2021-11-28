@@ -186,7 +186,11 @@ const Cart = () => {
 
   const deleteAction = id =>  dispatch(deleteProduct(id))
 
-  const addQtyAction = id => dispatch(addQty(id))
+  const addQtyAction = (product, id) => {
+    if (product.quantity < product.inStock) {
+      dispatch(addQty(id))
+    }
+  }
 
   const removeQtyAction = (product, id) => {
     if (product.quantity > 1) {
@@ -219,8 +223,8 @@ const Cart = () => {
         <Top>
           <TopButton onClick={goShopping}>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
+            <TopText>Shopping Bag</TopText>
+            <TopText>Your Wishlist</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
@@ -246,7 +250,7 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add onClick={() => addQtyAction(product._id)}/>
+                    <Add onClick={() => addQtyAction(product, product._id)}/>
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Remove onClick={() => removeQtyAction(product, product._id)} />
                   </ProductAmountContainer>

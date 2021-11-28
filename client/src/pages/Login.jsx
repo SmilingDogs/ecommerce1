@@ -73,7 +73,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector(userSelector);
+  const { isFetching, error, errorResponse } = useSelector(userSelector);
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -98,6 +98,7 @@ const Login = () => {
             LOGIN
           </Button>
           {error && <Error>Something went wrong...</Error>}
+          {errorResponse && <Error>{errorResponse}</Error>}
           <Link>FORGOT PASSWORD?</Link>
           <Link>CREATE A NEW ACCOUNT</Link>
         </Form>
